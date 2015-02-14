@@ -39,7 +39,7 @@
         </service>
         
         <service id="spray_serializer.integration.broadway"
-                 class="Spray\Serializer\Integration\BroadwaySerializer">
+                 class="Spray\SerializerBundle\Integration\BroadwaySerializer">
             <argument type="service" id="spray_serializer" />
         </service>
         <service id="broadway.serializer.metadata" alias="spray_serializer.integration.broadway"></service>
