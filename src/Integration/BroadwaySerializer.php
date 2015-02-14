@@ -1,6 +1,6 @@
 <?php
 
-namespace Spray\SerializerBundle\Integration\Serializer;
+namespace Spray\SerializerBundle\Integration;
 
 use Broadway\Serializer\SerializerInterface as BroadwaySerializerInterface;
 use Spray\Serializer\SerializerInterface as SpraySerializerInterface;
