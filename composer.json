@@ -1,7 +1,7 @@
 {
     "name": "jurjean/spray-serializer-bundle",
     "require": {
-        "jurjean/spray-serializer": "1.0.*@dev",
+        "jurjean/spray-serializer": ">=1.0.0",
         "symfony/http-foundation": ">=2.0.0"
     },
     "require-dev": {
