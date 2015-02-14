@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="spray_serializer"
+                 class="Spray\Serializer\Serializer">
+            <argument type="service" id="spray_serializer.locator" />
+        </service>
+        <service id="spray_serializer.locator"
+                 class="Spray\Serializer\SerializerLocator">
+            <argument type="service" id="spray_serializer.registry" />
+            <argument type="service" id="spray_serializer.builder" />
+            <argument type="service" id="spray_serializer.cache" />
+        </service>
+        <service id="spray_serializer.reflections"
+                 class="Spray\Serializer\ReflectionRegistry">
+        </service>
+        <service id="spray_serializer.registry"
+                 class="Spray\Serializer\SerializerRegistry">
+        </service>
+        <service id="spray_serializer.builder"
+                 class="Spray\Serializer\ObjectSerializerBuilder">
+            <argument type="service" id="spray_serializer.reflections" />
+        </service>
+        <service id="spray_serializer.cache"
+                 class="Spray\Serializer\Cache\FileCache">
+            <argument type="service">
+                <service class="Symfony\Component\Filesystem\Filesystem" />
+            </argument>
+            <argument>%kernel.cache_dir%/spray-serializer</argument>
+        </service>
+        
+        <service id="spray_serializer.datetime_serializer"
+                 class="Spray\Serializer\DateTimeSerializer">
+            <tag name="spray_serializer" />
+        </service>
+        
+        <service id="spray_serializer.integration.broadway"
+                 class="Spray\Serializer\Integration\BroadwaySerializer">
+            <argument type="service" id="spray_serializer" />
+        </service>
+        <service id="broadway.serializer.metadata" alias="spray_serializer.integration.broadway"></service>
+        <service id="broadway.serializer.payload" alias="spray_serializer.integration.broadway"></service>
+        <service id="broadway.serializer.readmodel" alias="spray_serializer.integration.broadway"></service>
+    </services>
+</container>

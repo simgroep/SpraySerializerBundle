@@ -1,0 +1,25 @@
+{
+    "name": "jurjean/spray-serializer-bundle",
+    "require": {
+        "jurjean/spray-serializer": "1.0.*@dev",
+        "symfony/http-foundation": ">=2.0.0"
+    },
+    "require-dev": {
+        "broadway/broadway": ">=0.4.0",
+        "jurjean/spray-bundle-integration": "1.0.*@dev",
+        "phpunit/phpunit": ">=4.0.0"
+    },
+    "suggest": {
+        "broadway/broadway": "Integrates with broadway"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spray\\SerializerBundle\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spray\\SerializerBundle\\": "test"
+        }
+    }
+}
