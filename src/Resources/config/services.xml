@@ -37,6 +37,10 @@
                  class="Spray\Serializer\DateTimeSerializer">
             <tag name="spray_serializer" />
         </service>
+        <service id="spray_serializer.datetimeimmutable_serializer"
+                 class="Spray\Serializer\DateTimeImmutableSerializer">
+            <tag name="spray_serializer" />
+        </service>
         
         <service id="spray_serializer.integration.broadway"
                  class="Spray\SerializerBundle\Integration\BroadwaySerializer">
