@@ -44,6 +44,11 @@ class SpraySerializerExtension extends Extension
 
         $encryptionKey = $config['encryption']['encryption_key'];
         $encryptor     = new Definition('Spray\SerializerBundle\Service\BlockCipherEncryptor', array($encryptionKey));
+
+        if (isset($config['encryption']['key_iteration'])) {
+            $encryptor->addMethodCall('setKeyIteration', array($config['encryption']['key_iteration']));
+        }
+
         $container->setDefinition('spray_encryptor.blockcipher', $encryptor);
 
         $arguments = array(

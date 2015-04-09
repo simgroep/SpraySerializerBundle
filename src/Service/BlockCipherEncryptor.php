@@ -35,5 +35,13 @@ class BlockCipherEncryptor implements Encryptor
     {
         return json_decode($this->blockCipher->decrypt($data), true);
     }
+
+    /**
+     * @param integer $keyIteration
+     */
+    public function setKeyIteration($keyIteration)
+    {
+        $this->blockCipher->setKeyIteration($keyIteration);
+    }
 }
 
