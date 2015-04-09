@@ -28,6 +28,8 @@ class Configuration implements ConfigurationInterface
                             ->isRequired()
                             ->cannotBeEmpty()
                         ->end()
+                        ->scalarNode('key_iteration')
+                        ->end()
                     ->end()
                 ->end()
             ->end()
