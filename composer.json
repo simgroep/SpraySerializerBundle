@@ -10,7 +10,8 @@
         "phpunit/phpunit": ">=4.0.0"
     },
     "suggest": {
-        "broadway/broadway": "Integrates with broadway"
+        "broadway/broadway": "Integrates with broadway",
+        "zendframework/zend-crypt": "For using encrypted payloads"
     },
     "autoload": {
         "psr-4": {
