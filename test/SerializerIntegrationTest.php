@@ -5,6 +5,7 @@ namespace Spray\SerializerBundle;
 use DateTime;
 use DateTimeImmutable;
 use Spray\BundleIntegration\IntegrationTestCase;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 
 class SerializerIntegrationTest extends IntegrationTestCase
@@ -30,13 +31,23 @@ class SerializerIntegrationTest extends IntegrationTestCase
             $this->createSerializer()->serialize($date)
         );
     }
-    
+
     public function testSerializeTaggedDateTimeImmutable()
     {
         $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2015-01-01 12:00:00');
         $this->assertSame(
             '2015-01-01 12:00:00',
             $this->createSerializer()->serialize($date)
+        );
+    }
+
+    public function testSerializeStdClass()
+    {
+        $stdClass = new stdClass;
+        $stdClass->foo = 'bar';
+        $this->assertEquals(
+            array('foo' => 'bar', '__type' => 'stdClass'),
+            $this->createSerializer()->serialize($stdClass)
         );
     }
 }

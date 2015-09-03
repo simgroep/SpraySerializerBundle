@@ -32,7 +32,11 @@
             </argument>
             <argument>%kernel.cache_dir%/spray-serializer</argument>
         </service>
-        
+
+        <service id="spray_serializer.stdclass_serializer"
+                 class="Spray\Serializer\StdClassSerializer">
+            <tag name="spray_serializer" />
+        </service>
         <service id="spray_serializer.datetime_serializer"
                  class="Spray\Serializer\DateTimeSerializer">
             <tag name="spray_serializer" />
