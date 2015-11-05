@@ -5,10 +5,24 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="spray_serializer_simple" class="Spray\Serializer\Serializer">
+            <argument type="service">
+                <service class="Zend\EventManager\EventManager" />
+            </argument>
+            <call method="attach">
+                <argument type="service" id="spray_serializer.listener.object" />
+            </call>
+        </service>
         <service id="spray_serializer"
-                 class="Spray\Serializer\Serializer">
+                 parent="spray_serializer_simple">
+            <call method="attach">
+                <argument type="service" id="spray_serializer.listener.object_type" />
+            </call>
+        </service>
+        <service id="spray_serializer.listener.object" class="Spray\Serializer\ObjectListener">
             <argument type="service" id="spray_serializer.locator" />
         </service>
+        <service id="spray_serializer.listener.object_type" class="Spray\Serializer\ObjectTypeListener" />
         <service id="spray_serializer.locator"
                  class="Spray\Serializer\SerializerLocator">
             <argument type="service" id="spray_serializer.registry" />
