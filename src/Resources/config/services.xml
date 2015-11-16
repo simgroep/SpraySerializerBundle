@@ -13,9 +13,12 @@
                 <argument type="service" id="spray_serializer.listener.object" />
             </call>
         </service>
-        <service id="spray_serializer"
-                 parent="spray_serializer_simple">
+        <service id="spray_serializer" class="Spray\Serializer\Serializer">
+            <argument type="service">
+                <service class="Zend\EventManager\EventManager" />
+            </argument>
             <call method="attach">
+                <argument type="service" id="spray_serializer.listener.object" />
                 <argument type="service" id="spray_serializer.listener.object_type" />
             </call>
         </service>
