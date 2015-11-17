@@ -9,23 +9,20 @@
             <argument type="service">
                 <service class="Zend\EventManager\EventManager" />
             </argument>
-            <call method="attach">
-                <argument type="service" id="spray_serializer.listener.object" />
-            </call>
         </service>
         <service id="spray_serializer" class="Spray\Serializer\Serializer">
             <argument type="service">
                 <service class="Zend\EventManager\EventManager" />
             </argument>
-            <call method="attach">
-                <argument type="service" id="spray_serializer.listener.object" />
-                <argument type="service" id="spray_serializer.listener.object_type" />
-            </call>
         </service>
         <service id="spray_serializer.listener.object" class="Spray\Serializer\ObjectListener">
             <argument type="service" id="spray_serializer.locator" />
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer_simple" />
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer" />
         </service>
-        <service id="spray_serializer.listener.object_type" class="Spray\Serializer\ObjectTypeListener" />
+        <service id="spray_serializer.listener.object_type" class="Spray\Serializer\ObjectTypeListener">
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer" />
+        </service>
         <service id="spray_serializer.locator"
                  class="Spray\Serializer\SerializerLocator">
             <argument type="service" id="spray_serializer.registry" />
