@@ -15,48 +15,50 @@
                 <service class="Zend\EventManager\EventManager" />
             </argument>
         </service>
-        <service id="spray_serializer.listener.object" class="Spray\Serializer\ObjectListener">
-            <argument type="service" id="spray_serializer.locator" />
-            <tag name="spray_serializer_listener" serializer-id="spray_serializer_simple" />
-            <tag name="spray_serializer_listener" serializer-id="spray_serializer" />
-        </service>
+
         <service id="spray_serializer.listener.object_type" class="Spray\Serializer\ObjectTypeListener">
             <tag name="spray_serializer_listener" serializer-id="spray_serializer" />
         </service>
-        <service id="spray_serializer.locator"
-                 class="Spray\Serializer\SerializerLocator">
-            <argument type="service" id="spray_serializer.registry" />
-            <argument type="service" id="spray_serializer.builder" />
-            <argument type="service" id="spray_serializer.cache" />
+
+        <service id="spray_serializer.listener.object" class="Spray\Serializer\ObjectListener">
+            <argument type="service" id="spray_serializer.serializer_locator" />
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer_simple" />
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer" />
         </service>
-        <service id="spray_serializer.reflections"
-                 class="Spray\Serializer\ReflectionRegistry">
+        <service id="spray_serializer.serializer_locator"
+                 class="Spray\Serializer\Object\SerializerLocator">
+            <argument type="service" id="spray_serializer.serializer_registry" />
+            <argument type="service" id="spray_serializer.generator" />
+            <argument type="service" id="spray_serializer.serializer_cache" />
         </service>
-        <service id="spray_serializer.registry"
-                 class="Spray\Serializer\SerializerRegistry">
+        <service id="spray_serializer.serializer_registry"
+                 class="Spray\Serializer\Object\SerializerRegistry">
         </service>
-        <service id="spray_serializer.builder"
-                 class="Spray\Serializer\ObjectSerializerBuilder">
-            <argument type="service" id="spray_serializer.reflections" />
+        <service id="spray_serializer.generator"
+                 class="Spray\Serializer\Object\ObjectSerializerGenerator">
+            <argument type="service" id="spray_serializer.property_info" />
         </service>
-        <service id="spray_serializer.cache"
+        <service id="spray_serializer.serializer_cache"
                  class="Spray\Serializer\Cache\FileCache">
             <argument type="service">
                 <service class="Symfony\Component\Filesystem\Filesystem" />
             </argument>
             <argument>%kernel.cache_dir%/spray-serializer</argument>
+            <argument>Serializer</argument>
         </service>
 
+        <service id="spray_serializer.property_info" class="Spray\Serializer\AnnotationBackedPropertyInfo" />
+
         <service id="spray_serializer.stdclass_serializer"
-                 class="Spray\Serializer\StdClassSerializer">
+                 class="Spray\Serializer\Object\StdClassSerializer">
             <tag name="spray_serializer" />
         </service>
         <service id="spray_serializer.datetime_serializer"
-                 class="Spray\Serializer\DateTimeSerializer">
+                 class="Spray\Serializer\Object\DateTimeSerializer">
             <tag name="spray_serializer" />
         </service>
         <service id="spray_serializer.datetimeimmutable_serializer"
-                 class="Spray\Serializer\DateTimeImmutableSerializer">
+                 class="Spray\Serializer\Object\DateTimeImmutableSerializer">
             <tag name="spray_serializer" />
         </service>
         
@@ -64,6 +66,7 @@
                  class="Spray\SerializerBundle\Integration\BroadwaySerializer">
             <argument type="service" id="spray_serializer" />
         </service>
+
         <service id="broadway.serializer.metadata" alias="spray_serializer.integration.broadway"></service>
         <service id="broadway.serializer.payload" alias="spray_serializer.integration.broadway"></service>
         <service id="broadway.serializer.readmodel" alias="spray_serializer.integration.broadway"></service>

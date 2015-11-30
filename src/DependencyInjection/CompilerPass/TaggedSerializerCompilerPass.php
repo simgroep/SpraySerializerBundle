@@ -17,7 +17,7 @@ class TaggedSerializerCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $registryDefinition = $container->getDefinition('spray_serializer.registry');
+        $registryDefinition = $container->getDefinition('spray_serializer.serializer_registry');
         $tagged = $container->findTaggedServiceIds('spray_serializer');
         
         foreach ($tagged as $id => $tags) {

@@ -2,6 +2,7 @@
 
 namespace Spray\SerializerBundle\DependencyInjection;
 
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -27,7 +28,7 @@ class SpraySerializerExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $this->setEncryptionSerializer($config, $container);
+        $this->loadEncryptionSerializer($loader, $config, $container);
     }
 
     /**
@@ -36,28 +37,19 @@ class SpraySerializerExtension extends Extension
      * @param array            $config
      * @param ContainerBuilder $container
      */
-    private function setEncryptionSerializer($config, ContainerBuilder $container)
+    private function loadEncryptionSerializer(LoaderInterface $loader, $config, ContainerBuilder $container)
     {
         if (false === isset($config['encryption'])) {
             return;
         }
 
-        $encryptionKey = $config['encryption']['encryption_key'];
-        $encryptor     = new Definition('Spray\SerializerBundle\Service\BlockCipherEncryptor', array($encryptionKey));
+        $loader->load('encryption.xml');
+
+        $container->setParameter('spray_serializer.encryption_key', $config['encryption']['encryption_key']);
+        $encryptor = $container->getDefinition('spray_serializer.encryption_blockcipher');
 
         if (isset($config['encryption']['key_iteration'])) {
             $encryptor->addMethodCall('setKeyIteration', array($config['encryption']['key_iteration']));
         }
-
-        $container->setDefinition('spray_encryptor.blockcipher', $encryptor);
-
-        $arguments = array(
-            new Reference('spray_serializer'),
-            new Reference('spray_encryptor.blockcipher')
-        );
-        $encryptingSerializer = new Definition('Spray\SerializerBundle\Integration\BroadwayEncryptingSerializer', $arguments);
-        $container->setDefinition('spray_serializer_encrypt.integration.broadway', $encryptingSerializer);
-
-        $container->setAlias('broadway.serializer.payload', 'spray_serializer_encrypt.integration.broadway');
     }
 }

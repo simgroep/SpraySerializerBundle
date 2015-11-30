@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="spray_serializer.listener.encryption" class="Spray\Serializer\EncryptionListener">
+            <argument type="service" id="spray_serializer.encryptor_locator" />
+            <argument type="service" id="spray_serializer.encryption_blockcipher" />
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer_simple" />
+            <tag name="spray_serializer_listener" serializer-id="spray_serializer" />
+        </service>
+        <service id="spray_serializer.encryptor_locator" class="Spray\Serializer\Encryption\EncryptorLocator">
+            <argument type="service" id="spray_serializer.encryption_generator" />
+            <argument type="service" id="spray_serializer.encryption_cache" />
+        </service>
+        <service id="spray_serializer.encryption_generator" class="Spray\Serializer\Encryption\EncryptorGenerator">
+            <argument type="service" id="spray_serializer.property_info" />
+        </service>
+        <service id="spray_serializer.encryption_blockcipher" class="Zend\Crypt\BlockCipher"
+                 factory-class="Zend\Crypt\BlockCipher" factory-method="factory">
+            <argument>mcrypt</argument>
+            <argument type="collection">
+                <argument key="algo">aes</argument>
+            </argument>
+            <call method="setKey">
+                <argument>%spray_serializer.encryption_key%</argument>
+            </call>
+        </service>
+        <service id="spray_serializer.encryption_cache"
+                 class="Spray\Serializer\Cache\FileCache">
+            <argument type="service">
+                <service class="Symfony\Component\Filesystem\Filesystem" />
+            </argument>
+            <argument>%kernel.cache_dir%/spray-serializer</argument>
+            <argument>Encryption</argument>
+        </service>
+    </services>
+</container>
