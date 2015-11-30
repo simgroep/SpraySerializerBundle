@@ -34,7 +34,7 @@
                 <service class="Symfony\Component\Filesystem\Filesystem" />
             </argument>
             <argument>%kernel.cache_dir%/spray-serializer</argument>
-            <argument>Encryption</argument>
+            <argument>Encryptor</argument>
         </service>
     </services>
 </container>
