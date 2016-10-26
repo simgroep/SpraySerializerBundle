@@ -61,6 +61,10 @@
                  class="Spray\Serializer\Object\DateTimeImmutableSerializer">
             <tag name="spray_serializer" />
         </service>
+        <service id="spray_serializer.doctrine_proxy"
+                 class="Spray\Serializer\Object\DoctrineProxySerializer">
+            <tag name="spray_serializer" />
+        </service>
         
         <service id="spray_serializer.integration.broadway"
                  class="Spray\SerializerBundle\Integration\BroadwaySerializer">
